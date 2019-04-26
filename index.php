@@ -17,13 +17,13 @@ $controller = new StartPage();
 $uri = $request->getRequestUri();
 switch ($uri) {
     case '/week':
-    case '/googleweek':
-    case '/zuluweek':
+    case '/google-week':
+    case '/weather-week':
         $renderInfo = $controller->getWeekWeather($uri);
         break;
     case '/':
     case '/google':
-    case '/zulu':
+    case '/weather':
     default:
         $renderInfo = $controller->getTodayWeather($uri);
     break;

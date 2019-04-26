@@ -43,7 +43,7 @@ class GoogleApi implements DataProvider
      * @return Weather
      * @throws \Exception
      */
-    public function getToday()
+    public function getToday(): Weather
     {
         $today = $this->load(new NullWeather());
         $today->setDate(new \DateTime());
@@ -80,7 +80,7 @@ class GoogleApi implements DataProvider
      * @return Weather
      * @throws \Exception
      */
-    private function load(Weather $before)
+    private function load(Weather $before): Weather
     {
         $now = new Weather();
         $base = $before->getDayTemp();

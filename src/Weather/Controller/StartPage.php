@@ -7,6 +7,10 @@ use Weather\Model\NullWeather;
 
 class StartPage
 {
+    /**
+     * @param string $uri
+     * @return array
+     */
     public function getTodayWeather(string $uri): array
     {
         try {
@@ -19,6 +23,10 @@ class StartPage
         return ['template' => 'today-weather.twig', 'context' => ['weather' => $weather]];
     }
 
+    /**
+     * @param string $uri
+     * @return array
+     */
     public function getWeekWeather(string $uri): array
     {
         try {

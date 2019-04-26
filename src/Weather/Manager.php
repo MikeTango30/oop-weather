@@ -3,7 +3,7 @@
 namespace Weather;
 
 use Weather\Api\DataProvider;
-use Weather\Api\Db\WeatherApi;
+use Weather\Api\WeatherApi;
 use Weather\Api\DbRepository;
 use Weather\Api\GoogleApi;
 use Weather\Model\Weather;
@@ -15,17 +15,31 @@ class Manager
      */
     private $transporter;
 
+    /**
+     * @param string $uri
+     * @return Weather
+     * @throws \Exception
+     */
     public function getTodayInfo(string $uri): Weather
     {
         return $this->getTransporter($uri)->selectByDate(new \DateTime());
     }
 
+    /**
+     * @param string $uri
+     * @return array
+     * @throws \Exception
+     */
     public function getWeekInfo(string $uri): array
     {
         return $this->getTransporter($uri)->selectByRange(new \DateTime('midnight'), new \DateTime('+6 days midnight'));
     }
 
-    private function getTransporter(string $uri)
+    /**
+     * @param string $uri
+     * @return object
+     */
+    private function getTransporter(string $uri): object
     {
         switch ($uri) {
             case '/week':
@@ -37,7 +51,7 @@ class Manager
                 return $this->transporter;
                 break;
 
-            case '/googleweek':
+            case '/google-week':
             case '/google':
                 if (null === $this->transporter) {
                     $this->transporter = new GoogleApi();
@@ -46,8 +60,8 @@ class Manager
                 return $this->transporter;
                 break;
 
-            case '/zuluweek':
-            case '/zulu':
+            case '/weather-week':
+            case '/weather':
                 if (null === $this->transporter) {
                     $this->transporter = new WeatherApi();
                 }

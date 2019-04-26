@@ -98,4 +98,6 @@ class Weather
     {
         return $this->map[$this->sky];
     }
+
+
 }
