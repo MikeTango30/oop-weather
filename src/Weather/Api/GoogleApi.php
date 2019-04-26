@@ -5,8 +5,40 @@ namespace Weather\Api;
 use Weather\Model\NullWeather;
 use Weather\Model\Weather;
 
-class GoogleApi
+class GoogleApi implements DataProvider
 {
+    /**
+     * @param \DateTime $date
+     * @return Weather
+     * @throws \Exception
+     */
+    public function selectByDate(\DateTime $date): Weather
+    {
+        $result = $this->getToday(); //shows different time after refresh
+
+        return $result;
+    }
+
+    /**
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
+     * @throws \Exception
+     */
+    public function selectByRange(\DateTime $from, \DateTime $to): array
+    {
+        $items = $this->getByRange($from, $to);
+        $result = [];
+
+        foreach ($items as $item) {
+            if ($item->getDate() >= $from && $item->getDate() <= $to) {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * @return Weather
      * @throws \Exception
@@ -18,6 +50,30 @@ class GoogleApi
 
         return $today;
     }
+
+    /**
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
+     * @throws \Exception
+     */
+    public function getByRange(\DateTime $from, \DateTime $to): array
+    {
+        $base = $this->load(new NullWeather());
+        $base->setDate($from);
+
+        $interval = $from->diff($to);
+        $range = [];
+
+        for ($i = 0; $i <= $interval->days; $i++) {
+            $weather = $this->load($base);
+            $weather->setDate(new \DateTime('+'.$i.'days midnight'));
+            $range[] = $weather;
+        }
+
+        return $range;
+    }
+
 
     /**
      * @param Weather $before

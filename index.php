@@ -14,13 +14,18 @@ $loader = new FilesystemLoader('View', __DIR__ . '/src/Weather');
 $twig = new Environment($loader, ['cache' => __DIR__ . '/cache', 'debug' => true]);
 
 $controller = new StartPage();
-switch ($request->getRequestUri()) {
+$uri = $request->getRequestUri();
+switch ($uri) {
     case '/week':
-        $renderInfo = $controller->getWeekWeather();
+    case '/googleweek':
+    case '/zuluweek':
+        $renderInfo = $controller->getWeekWeather($uri);
         break;
     case '/':
+    case '/google':
+    case '/zulu':
     default:
-        $renderInfo = $controller->getTodayWeather();
+        $renderInfo = $controller->getTodayWeather($uri);
     break;
 }
 $renderInfo['context']['resources_dir'] = 'src/Weather/Resources';
