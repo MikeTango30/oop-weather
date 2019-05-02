@@ -1,0 +1,12 @@
+{
+  "todayRoutes": {
+  "default": "/",
+  "google": "/google",
+  "weather": "/weather"
+  },
+  "weekRoutes": {
+    "defaultWeek": "/week",
+    "googleWeek": "/google-week",
+    "weatherWeek": "/weather-week"
+  }
+}

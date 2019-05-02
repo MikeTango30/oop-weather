@@ -4,18 +4,20 @@ namespace Weather\Controller;
 
 use Weather\Manager;
 use Weather\Model\NullWeather;
+use Weather\Router;
 
 class StartPage
 {
     /**
      * @param string $uri
+     * @param Router $router
      * @return array
      */
-    public function getTodayWeather(string $uri): array
+    public function getTodayWeather(string $uri, Router $router): array
     {
         try {
             $service = new Manager();
-            $weather = $service->getTodayInfo($uri);
+            $weather = $service->getTodayInfo($uri, $router);
         } catch (\Exception $exp) {
             $weather = new NullWeather();
         }
@@ -25,13 +27,14 @@ class StartPage
 
     /**
      * @param string $uri
+     * @param Router $router
      * @return array
      */
-    public function getWeekWeather(string $uri): array
+    public function getWeekWeather(string $uri, Router $router): array
     {
         try {
             $service = new Manager();
-            $weathers = $service->getWeekInfo($uri);
+            $weathers = $service->getWeekInfo($uri, $router);
         } catch (\Exception $exp) {
             $weathers = [];
         }
